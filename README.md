@@ -47,11 +47,35 @@ Warning: Try to prioritize the latest results.
   <li><strong>Networking</strong> - the communication between client and server applications to be done using Sockets </li>
   <li><strong>Database</strong> - the data used by the server will be manipulated using a database </li>
 </ol>
-</br>
-</br>
-</br>
-<details>
-  <summary><b>📷 Images 📷</b></summary>
-  pics
+
+  ## Teammates
   
+  [Sdraila Valentin](#)
+  
+  [Similie Vlad-Gabriel](#)
+  
+  [Sulu David](#)
+  
+  <details>
+  <summary><b>📷 Images 📷</b></summary>
+  </br>
+  
+  [video presentation](https://github.com/DenisaXXIV/Twitter/blob/master/util/Prezentare-Twitter.mkv)
+  
+  </br>
+
+  <img src="https://github.com/DenisaXXIV/Twitter/blob/master/util/intro.png" width="350"/>
+
+  <img src="https://github.com/DenisaXXIV/Twitter/blob/master/util/register.png" width="350"/>
+</br>
+</br>
+</br>
+  <img src="https://github.com/DenisaXXIV/Twitter/blob/master/util/feed.png" width="350"/>
+
+  <img src="https://github.com/DenisaXXIV/Twitter/blob/master/util/add_post.png" width="350"/>
+  </br>
+</br>
+</br>
+  <img src="https://github.com/DenisaXXIV/Twitter/blob/master/util/profile.png" width="350"/>
+
   </details>
