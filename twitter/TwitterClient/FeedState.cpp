@@ -7,6 +7,7 @@ FeedState::FeedState(sf::RenderWindow* window, std::stack<State*> *states, std::
 	initLines(window);
 	initButtons(window);
 	initTweetbox(window); 
+	initSpritesTextures(window);
 	m_enumStates = States::eFeedState;
 
 	std::array<char, 512> rBuffer;
@@ -17,6 +18,21 @@ FeedState::FeedState(sf::RenderWindow* window, std::stack<State*> *states, std::
 	std::copy(rBuffer.begin(), rBuffer.begin() + revieved, std::back_inserter(recieved));
 	
 	this->m_tweet->SetText(recieved);
+
+	if (recieved.compare("Your friends have no posts") != 0 && recieved.compare("You have no friends!") != 0)
+	{
+		std::array<char, 512> rBuffer2;
+		int revieved2;
+		std::string recieved2;
+		mamaMia->Receive(rBuffer2.data(), rBuffer2.size(), revieved2);
+
+		std::copy(rBuffer2.begin(), rBuffer2.begin() + revieved2, std::back_inserter(recieved2));
+
+		this->m_tweet->SetUsername(recieved2);
+	}
+	else
+		this->m_tweet->SetUsername("System");
+
 }
 
 FeedState::~FeedState()
@@ -77,6 +93,19 @@ void FeedState::updateUseButtons()
 			std::copy(rBuffer.begin(), rBuffer.begin() + revieved, std::back_inserter(recieved));
 
 			this->m_tweet->SetText(recieved);
+			if (recieved.compare("Your friends have no posts") != 0 && recieved.compare("You have no friends!") != 0)
+			{
+				std::array<char, 512> rBuffer2;
+				int revieved2;
+				std::string recieved2;
+				mamaMia->Receive(rBuffer2.data(), rBuffer2.size(), revieved2);
+
+				std::copy(rBuffer2.begin(), rBuffer2.begin() + revieved2, std::back_inserter(recieved2));
+
+				this->m_tweet->SetUsername(recieved2);
+			}
+			else
+				this->m_tweet->SetUsername("System");
 		}
 		m_buttonRelease = 0;
 	}	
@@ -91,7 +120,7 @@ void FeedState::updateUseButtons()
 			bool result = mamaMia->Send((char*)&aux, sizeof(char));
 			if (result)
 			{
-				this->m_states->push(new ProfileState(this->m_window, this->m_states, mamaMia));
+				this->m_states->push(new ProfileState(this->m_window, this->m_states, this->mamaMia));
 				std::cout << "salut de la profile\n";
 				
 			}
@@ -123,6 +152,20 @@ void FeedState::updateUseButtons()
 			std::copy(rBuffer.begin(), rBuffer.begin() + revieved, std::back_inserter(recieved));
 
 			this->m_tweet->SetText(recieved);
+
+			if (recieved.compare("There are no other posts") != 0)
+			{
+				std::array<char, 512> rBuffer2;
+				int revieved2;
+				std::string recieved2;
+				mamaMia->Receive(rBuffer2.data(), rBuffer2.size(), revieved2);
+
+				std::copy(rBuffer2.begin(), rBuffer2.begin() + revieved2, std::back_inserter(recieved2));
+
+				this->m_tweet->SetUsername(recieved2);
+			}
+			else
+				this->m_tweet->SetUsername("System");
 		}
 		m_buttonRelease = 0;
 	}
@@ -146,6 +189,20 @@ void FeedState::updateUseButtons()
 			std::copy(rBuffer.begin(), rBuffer.begin() + revieved, std::back_inserter(recieved));
 
 			this->m_tweet->SetText(recieved);
+
+			if (recieved.compare("There are no other posts") != 0)
+			{
+				std::array<char, 512> rBuffer2;
+				int revieved2;
+				std::string recieved2;
+				mamaMia->Receive(rBuffer2.data(), rBuffer2.size(), revieved2);
+
+				std::copy(rBuffer2.begin(), rBuffer2.begin() + revieved2, std::back_inserter(recieved2));
+
+				this->m_tweet->SetUsername(recieved2);
+			}
+			else
+				this->m_tweet->SetUsername("System");
 		}
 		m_buttonRelease = 0;
 	}
@@ -255,6 +312,9 @@ void FeedState::renderDesign(sf::RenderTarget* target)
 
 	target->draw(rect1, 4, sf::Quads);
 	target->draw(rect2, 4, sf::Quads);
+
+	target->draw(TwitterLogoSprite);
+
 }
 
 void FeedState::render(sf::RenderTarget* target)
@@ -325,7 +385,7 @@ void FeedState::initButtons(sf::RenderTarget* target)
 		this->m_color.Black, this->m_color.DarkGray,
 		this->m_color.Blue, this->m_color.Black);
 
-	this->m_button.Profile = new Button(target->getSize().x / 48*43, target->getSize().y / 30*27,
+	this->m_button.Profile = new Button(target->getSize().x / 48*41, target->getSize().y / 30*27,
 		target->getSize().x / 8, target->getSize().y / 20, &this->m_font, "Profile",
 		this->m_color.Black, this->m_color.DarkGray,
 		this->m_color.Blue, this->m_color.Black);
@@ -352,11 +412,21 @@ void FeedState::initButtons(sf::RenderTarget* target)
 void FeedState::initTweetbox(sf::RenderTarget* target)
 {
 	this->m_tweet = new Tweetbox(target->getSize().x/48*9,target->getSize().y/4,
-		sf::Vector2f(target->getSize().x/48*31+13,target->getSize().y/2), 50, 100,
+		sf::Vector2f(target->getSize().x/48*29,target->getSize().y/2), 50, 100,
 		&this->m_font, sf::Color::Black,
 		"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas");
 	this->m_tweet->initButtons();
 	
+}
+
+void FeedState::initSpritesTextures(sf::RenderTarget* target)
+{
+	this->TwitterLogo.loadFromFile("../images2/twitter.jpg");
+	this->TwitterLogo.setSmooth(true);
+	this->TwitterLogoSprite.setScale(sf::Vector2f(0.15, 0.15));
+	this->TwitterLogoSprite.setPosition(sf::Vector2f(target->getSize().x/12*11-100,
+		50));
+	this->TwitterLogoSprite.setTexture(TwitterLogo);
 }
 
 void FeedState::SetText(const sf::Event& input)

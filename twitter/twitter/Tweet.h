@@ -31,7 +31,7 @@ public:
 
 	bool operator==(const Tweet& p);
 
-	int BinarySearch(std::vector<Like> likes, const Like& searchedLike);
+	int BinarySearch(const std::vector<Like>& likes, const Like& searchedLike);
 
 protected:
 	std::string m_text;

@@ -14,8 +14,11 @@ ProfileState::ProfileState(sf::RenderWindow* window, std::stack<State*>* states,
 	int revieved;
 	std::string recieved;
 	mamaMia->Receive(rBuffer.data(), rBuffer.size(), revieved);
+
 	std::copy(rBuffer.begin(), rBuffer.begin() + revieved, std::back_inserter(recieved));
+
 	this->m_tweet->SetText(recieved);
+
 }
 
 ProfileState::~ProfileState()

@@ -1,6 +1,6 @@
 #include "RetweetService.h"
 
-void RetweetService::AddRetweet(std::string text, std::string date, std::string time, std::string id_user, int id_tweet)
+void RetweetService::AddRetweet(const std::string& text, const std::string& date, const std::string& time, const std::string& id_user, int id_tweet)
 {
     // Adaugare obiecte in db:
     DatabaseConnection db;
@@ -65,7 +65,7 @@ void RetweetService::DeleteRetweet(int id_retweet)
     PQclear(res);
 }
 
-void RetweetService::EditRetweet(int id_retweet, std::string newText)
+void RetweetService::EditRetweet(int id_retweet, const std::string& newText)
 {
     DatabaseConnection db;
 
@@ -95,7 +95,7 @@ void RetweetService::EditRetweet(int id_retweet, std::string newText)
     PQclear(res);
 }
 
-int RetweetService::GetId(std::string text, std::string date, std::string time, std::string id_user, int id_tweet)
+int RetweetService::GetId(const std::string& text, const std::string& date, const std::string& time, const std::string& id_user, int id_tweet)
 {
     DatabaseConnection db;
     int id = -1;
@@ -473,7 +473,7 @@ int RetweetService::GetTweet(int id_retweet)const
     return id_tweet;
 }
 
-void RetweetService::SetText(const int& id_retweet, const std::string& newText)
+void RetweetService::SetText(int id_retweet, const std::string& newText)
 {
     DatabaseConnection db;
     std::string id_retweetS = std::to_string(id_retweet);
@@ -499,7 +499,7 @@ void RetweetService::SetText(const int& id_retweet, const std::string& newText)
     PQclear(res);
 }
 
-void RetweetService::SetDate(const int& id_retweet, const std::string& newDate)
+void RetweetService::SetDate(int id_retweet, const std::string& newDate)
 {
     DatabaseConnection db;
     std::string id_retweetS = std::to_string(id_retweet);
@@ -525,7 +525,7 @@ void RetweetService::SetDate(const int& id_retweet, const std::string& newDate)
     PQclear(res);
 }
 
-void RetweetService::SetTime(const int& id_retweet, const std::string& newTime)
+void RetweetService::SetTime(int id_retweet, const std::string& newTime)
 {
     DatabaseConnection db;
     std::string id_retweetS = std::to_string(id_retweet);
@@ -551,7 +551,7 @@ void RetweetService::SetTime(const int& id_retweet, const std::string& newTime)
     PQclear(res);
 }
 
-void RetweetService::SetUser(const int& id_retweet, const std::string& newUser)
+void RetweetService::SetUser(int id_retweet, const std::string& newUser)
 {
     DatabaseConnection db;
     std::string id_retweetS = std::to_string(id_retweet);
@@ -577,7 +577,7 @@ void RetweetService::SetUser(const int& id_retweet, const std::string& newUser)
     PQclear(res);
 }
 
-void RetweetService::SetTweet(const int& id_retweet, const int newTweet)
+void RetweetService::SetTweet(int id_retweet, const int newTweet)
 {
     DatabaseConnection db;
     std::string id_retweetS = std::to_string(id_retweet);

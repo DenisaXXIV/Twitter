@@ -123,6 +123,8 @@ void LoginState::renderButtons(sf::RenderTarget* target)
 	this->m_button.Login->render(target);
 	this->m_button.TextBoxButton->render(target);
 	this->m_textbox->DrawTo(target);
+
+	target->draw(m_twitterLogo);
 }
 
 
@@ -155,6 +157,13 @@ void LoginState::initButtons(sf::RenderTarget* target)
 	y = target->getSize().y / 2 - target->getSize().y / 40;
 	this->m_textbox->SetPosition({ x, y });
 	this->m_textbox->SetSelected(true);
+
+	this->m_twitterImg.loadFromFile("../images2/twitter.jpg");
+	this->m_twitterImg.setSmooth(true);
+	this->m_twitterLogo.setScale(sf::Vector2f(0.30, 0.30));
+	this->m_twitterLogo.setPosition(sf::Vector2f(target->getSize().x/2-200,
+		target->getSize().y/5));
+	this->m_twitterLogo.setTexture(m_twitterImg);
 
 	
 	

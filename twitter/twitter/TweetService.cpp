@@ -177,6 +177,83 @@ int TweetService::GetId(const std::string& text, const std::string& date, const 
     return id;
 }
 
+std::string TweetService::GetUserByTime(const std::string& time)
+{
+    DatabaseConnection db;
+    // Will hold the number of field in employee table
+    int nFields;
+
+    std::string text = "";
+
+    // Start a transaction block
+    PGresult* res = PQexec(db.GetConn(), "BEGIN");
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        printf("BEGIN command failed");
+        PQclear(res);
+        PQfinish(db.GetConn());
+    }
+
+    // Clear result
+    PQclear(res);
+
+    // Append the SQL statment
+    std::string sSQL;
+    sSQL.append("DECLARE tweetrec CURSOR FOR select id_user from Tweet where time='");
+    sSQL.append(time);
+    sSQL.append("'");
+
+    // Fetch rows from Tweet table  
+    res = PQexec(db.GetConn(), sSQL.c_str());
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        printf("DECLARE CURSOR failed");
+        PQclear(res);
+        PQfinish(db.GetConn());
+    }
+
+    // Clear result
+    PQclear(res);
+
+    res = PQexec(db.GetConn(), "FETCH ALL in tweetrec");
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK)
+    {
+        printf("FETCH ALL failed");
+        PQclear(res);
+        PQfinish(db.GetConn());
+    }
+
+    // Get the field name
+    nFields = PQnfields(res);
+
+    // Next, print out the Tweet record for each row
+    for (int i = 0; i < PQntuples(res); i++)
+    {
+        for (int j = 0; j < nFields; j++)
+        {
+            text += PQgetvalue(res, i, j);
+        }
+    }
+
+    PQclear(res);
+
+    // Close the tweetrec
+    res = PQexec(db.GetConn(), "CLOSE tweetrec");
+    PQclear(res);
+
+    // End the transaction
+    res = PQexec(db.GetConn(), "END");
+
+    // Clear result
+    PQclear(res);
+
+    PQfinish(db.GetConn());
+
+    return text;
+}
+
 std::string TweetService::GetTweet(const std::string& time)
 {
     DatabaseConnection db;

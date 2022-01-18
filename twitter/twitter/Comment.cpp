@@ -1,6 +1,6 @@
 #include "Comment.h"
 
-Comment::Comment(Tweet* referenceTweet, std::string text, time_t time) :
+Comment::Comment(Tweet* referenceTweet, const std::string& text, const time_t& time) :
 	Tweet(text, time),
 	m_referenceTweet(referenceTweet)
 {

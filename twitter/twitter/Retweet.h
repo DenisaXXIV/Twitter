@@ -6,7 +6,7 @@ class Retweet:public Tweet
 {
 public:
 	Retweet() = default;
-	Retweet(Tweet* referenceTweet, std::string text, time_t time);
+	Retweet(Tweet* referenceTweet, const std::string& text, const time_t& time);
 	~Retweet();
 
 	Tweet* GetReferenceTweet();

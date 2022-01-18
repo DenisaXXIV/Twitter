@@ -33,12 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Notifications.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lists.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PriorityQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,9 +52,6 @@
       <Filter>Source Files\DatabaseUtil</Filter>
     </ClCompile>
     <ClCompile Include="RetweetService.cpp">
-      <Filter>Source Files\DatabaseUtil</Filter>
-    </ClCompile>
-    <ClCompile Include="LocationService.cpp">
       <Filter>Source Files\DatabaseUtil</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
@@ -86,16 +77,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Notifications.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Lists.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PriorityQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LocationService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Features.h">

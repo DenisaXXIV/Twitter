@@ -11,7 +11,7 @@ public:
 	int GetID()const;
 	User GetUser()const;
 
-	void SetID(const int& ID);
+	void SetID( int ID);
 	void SetUser(const User& user);
 
 

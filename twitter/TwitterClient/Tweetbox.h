@@ -30,9 +30,26 @@ private:
 	};
 	Clicked m_click;
 
+	struct TweetboxTextures
+	{
+		sf::Texture Like;
+		sf::Texture Retweet;
+		sf::Texture Comment;
+		sf::Texture UserImg;
+	};
+	TweetboxTextures m_texture;
 
+	struct TweetboxSprites
+	{
+		sf::Sprite LikeSprite;
+		sf::Sprite RetweetSprite;
+		sf::Sprite CommentSprite;
+		sf::Sprite UserImgSprite;
+	};
+	TweetboxSprites m_sprite;
 
-
+	sf::RectangleShape m_likeLine;
+	sf::RectangleShape m_retweetLine;
 
 public:
 	Tweetbox();
@@ -61,10 +78,14 @@ public:
 	void updateTweetbox(const sf::Vector2f mousePos);
 
 	void renderButtons(sf::RenderTarget* target);
+	void renderSpritesTextures(sf::RenderTarget* target);
+	void renderLines(sf::RenderTarget* target);
 	void render(sf::RenderTarget* target);
 
 	void initButtons();
 	void initClick();
+	void initSpritesTextures();
+	void initLines();
 
 };
 

@@ -2,7 +2,7 @@
 
 void UserInterface::initWindow()
 {
-	this->m_window=new sf::RenderWindow(sf::VideoMode(800, 600), "SFML works!");
+	this->m_window=new sf::RenderWindow(sf::VideoMode(1920,1080), "SFML works!");
 	this->m_window->setFramerateLimit(120);
 	this->m_window->setVerticalSyncEnabled(false);
 }

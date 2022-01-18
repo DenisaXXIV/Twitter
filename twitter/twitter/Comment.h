@@ -8,7 +8,7 @@ class Comment:public Tweet
 {
 public:
 	Comment() = default;
-	Comment(Tweet* referenceTweet, std::string text, time_t time);
+	Comment(Tweet* referenceTweet, const std::string& text, const time_t& time);
 	~Comment() = default;
 
 	void AddLike();

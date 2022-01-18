@@ -28,8 +28,10 @@ Tweetbox::Tweetbox(float x, float y, const sf::Vector2f& size,
 		this->getPosition().y + this->getSize().y / 4+20
 	);
 	this->reboundText();
+	this->initSpritesTextures();
 	this->initButtons();
 	this->initClick();
+	this->initLines();
 
 	update();
 }
@@ -153,14 +155,18 @@ void Tweetbox::updateUseButtons()
 		//action
 		std::cout << "like\n";
 		this->m_click.LikesClick = true;
+		this->m_likeLine.setFillColor(sf::Color(0xC5352AFF));
+		
 	}
 	
 	if (this->m_button.Retweet->getButtonState() == 2 and !this->m_click.RetweetClick)
 	{
-		//action
-		std::cout << "retweet\n";
-		this->m_click.RetweetClick = true;
+			//action
+			std::cout << "retweet\n";
+			this->m_click.RetweetClick = true;
+			m_retweetLine.setFillColor(sf::Color(0xDA1F2FF));
 	}
+
 	if (this->m_button.UserName->getButtonState() == 2 and !this->m_click.UserNameClick)
 	{
 		//action
@@ -192,28 +198,44 @@ void Tweetbox::renderButtons(sf::RenderTarget* target)
 	this->m_button.UserName->render(target);
 }
 
+void Tweetbox::renderSpritesTextures(sf::RenderTarget* target)
+{
+	target->draw(m_sprite.LikeSprite);
+	target->draw(m_sprite.CommentSprite);
+	target->draw(m_sprite.RetweetSprite);
+	target->draw(m_sprite.UserImgSprite);
+}
+
+void Tweetbox::renderLines(sf::RenderTarget* target)
+{
+	target->draw(m_likeLine);
+	target->draw(m_retweetLine);
+}
+
 void Tweetbox::render(sf::RenderTarget* target)
 {
 	target->draw(*this);
 	target->draw(this->m_text);
 	renderButtons(target);
+	renderLines(target);
+	renderSpritesTextures(target);
 }
 
 void Tweetbox::initButtons()
 {
-	this->m_button.Comment = new Button(this->getPosition().x+this->getSize().x / 18*2,this->getPosition().y+this->getSize().y / 4 * 3+20,
-		this->getSize().x / 18 * 4, this->getSize().y / 32 * 4,
-		this->m_font, "3(comment)",
+	this->m_button.Comment = new Button(this->getPosition().x+this->getSize().x / 18*3,this->getPosition().y+this->getSize().y / 4 * 3+20,
+		this->getSize().x / 18 * 2, this->getSize().y / 32 * 4,
+		this->m_font, "(comment)",
 		sf::Color::Transparent, sf::Color(0xAAB8C2FF),
 		sf::Color::Transparent, sf::Color::Transparent);
-	this->m_button.Retweet = new Button(this->getPosition().x+this->getSize().x / 18*7,this->getPosition().y+this->getSize().y / 4 * 3+20,
-		this->getSize().x / 18 * 4, this->getSize().y / 32 * 4,
-		this->m_font, "54(Retweets)",
+	this->m_button.Retweet = new Button(this->getPosition().x+this->getSize().x / 18*8,this->getPosition().y+this->getSize().y / 4 * 3+20,
+		this->getSize().x / 18 * 2, this->getSize().y / 32 * 4,
+		this->m_font, "(Retweet)",
 		sf::Color::Transparent, sf::Color(0xAAB8C2FF),
 		sf::Color::Transparent, sf::Color::Transparent);
-	this->m_button.Likes = new Button(this->getPosition().x+this->getSize().x / 18*12,this->getPosition().y+this->getSize().y / 4 * 3+20,
-		this->getSize().x / 18 * 4, this->getSize().y / 32 * 4,
-		this->m_font, "103(Likes)",
+	this->m_button.Likes = new Button(this->getPosition().x+this->getSize().x / 18*13,this->getPosition().y+this->getSize().y / 4 * 3+20,
+		this->getSize().x / 18 * 2, this->getSize().y / 32 * 4,
+		this->m_font, "(Like)",
 		sf::Color::Transparent, sf::Color(0xAAB8C2FF),
 		sf::Color::Transparent, sf::Color::Transparent);
 	this->m_button.UserName = new Button(this->getPosition().x+this->getSize().x / 5,this->getPosition().y+this->getSize().y / 8 ,
@@ -236,4 +258,47 @@ void Tweetbox::initClick()
 	this->m_click.RetweetClick = false;
 	this->m_click.UserNameClick = false;
 }
+
+void Tweetbox::initSpritesTextures()
+{
+	this->m_texture.Like.loadFromFile("../images2/like.jpg");
+	this->m_texture.Like.setSmooth(true);
+	this->m_sprite.LikeSprite.setScale(sf::Vector2f(0.05, 0.05));
+	this->m_sprite.LikeSprite.setPosition(sf::Vector2f(this->getPosition().x + this->getSize().x / 18*12,
+		this->getPosition().y + this->getSize().y / 4 * 3 + 35));
+	this->m_sprite.LikeSprite.setTexture(m_texture.Like);
+
+	this->m_texture.Retweet.loadFromFile("../images2/retweet.png");
+	this->m_texture.Retweet.setSmooth(true);
+	this->m_sprite.RetweetSprite.setScale(sf::Vector2f(0.13, 0.13));
+	this->m_sprite.RetweetSprite.setPosition(sf::Vector2f(this->getPosition().x + this->getSize().x / 18 * 7,
+		this->getPosition().y + this->getSize().y / 4 * 3 + 40));
+	this->m_sprite.RetweetSprite.setTexture(m_texture.Retweet);
+
+	this->m_texture.Comment.loadFromFile("../images2/comment.jpg");
+	this->m_texture.Comment.setSmooth(true);
+	this->m_sprite.CommentSprite.setScale(sf::Vector2f(0.13, 0.13));
+	this->m_sprite.CommentSprite.setPosition(sf::Vector2f(this->getPosition().x + this->getSize().x / 18 * 2,
+		this->getPosition().y + this->getSize().y / 4 * 3 + 25));
+	this->m_sprite.CommentSprite.setTexture(m_texture.Comment);
+
+	this->m_texture.UserImg.loadFromFile("../images2/user.jpg");
+	this->m_texture.UserImg.setSmooth(true);
+	this->m_sprite.UserImgSprite.setScale(sf::Vector2f(0.15, 0.15));
+	this->m_sprite.UserImgSprite.setPosition(sf::Vector2f(this->getPosition().x + 40,
+		this->getPosition().y + 40));
+	this->m_sprite.UserImgSprite.setTexture(m_texture.UserImg);
+}
+
+void Tweetbox::initLines()
+{
+	m_likeLine.setSize(sf::Vector2f(200,3));
+	m_likeLine.setPosition(sf::Vector2f(this->getPosition().x + this->getSize().x / 18 * 12, this->getPosition().y + this->getSize().y / 4 * 3 + 90));
+	m_likeLine.setFillColor(sf::Color::Black);
+
+	m_retweetLine.setSize(sf::Vector2f(200,3));
+	m_retweetLine.setPosition(sf::Vector2f(this->getPosition().x + this->getSize().x / 18 * 7, this->getPosition().y + this->getSize().y / 4 * 3 + 90));
+	m_retweetLine.setFillColor(sf::Color::Black);
+}
+
 

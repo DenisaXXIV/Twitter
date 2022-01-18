@@ -214,7 +214,7 @@ void UserService::SetLocation(const std::string& username, const std::string& lo
     PQclear(res);
 }
 
-std::string UserService::GetBirthday(std::string username)const
+std::string UserService::GetBirthday(const std::string& username)const
 {
     DatabaseConnection db;
     std::string birthday;
@@ -270,7 +270,7 @@ std::string UserService::GetBirthday(std::string username)const
     return birthday;
 }
 
-std::string UserService::GetName(std::string username)const
+std::string UserService::GetName(const std::string& username)const
 {
     DatabaseConnection db;
     std::string name;
@@ -327,7 +327,7 @@ std::string UserService::GetName(std::string username)const
     return name;
 }
 
-std::string UserService::GetBio(std::string username)const
+std::string UserService::GetBio(const std::string& username)const
 {
     DatabaseConnection db;
     std::string bio;
@@ -383,7 +383,7 @@ std::string UserService::GetBio(std::string username)const
     return bio;
 }
 
-std::string UserService::GetWebsite(std::string username)const
+std::string UserService::GetWebsite(const std::string& username)const
 {
     DatabaseConnection db;
     std::string website;
@@ -439,7 +439,7 @@ std::string UserService::GetWebsite(std::string username)const
     return website;
 }
 
-std::string UserService::GetLocation(std::string username)const
+std::string UserService::GetLocation(const std::string& username)const
 {
     DatabaseConnection db;
     std::string location;
@@ -495,7 +495,7 @@ std::string UserService::GetLocation(std::string username)const
     return location;
 }
 
-std::vector<std::string> UserService::GetUser(std::string username)const
+std::vector<std::string> UserService::GetUser(const std::string& username)const
 {
     std::vector<std::string> userDetails;
     DatabaseConnection db;

@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include "Notifications.h"
 #include "../Network/TcpSocket.h"
 #include <array>
 #include <sstream>
@@ -13,6 +12,7 @@
 #include <ctime>
 #include <iomanip>
 #include "Features.h"
+#include "Tweet.h"
 #include "User.h"
 #include "FriendsService.h"
 #include "TweetService.h"

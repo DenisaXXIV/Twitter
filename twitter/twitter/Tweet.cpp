@@ -68,7 +68,7 @@ bool Tweet::operator==(const Tweet& tweet)
 	return false;
 }
 
-int Tweet::BinarySearch(std::vector<Like> likes,const Like& searchedLike)
+int Tweet::BinarySearch(const std::vector<Like>& likes,const Like& searchedLike)
 {
 	int left = 0, right = likes.size(), position = -1;
 	while (left < right && position == -1)

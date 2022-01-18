@@ -17,7 +17,7 @@ User Like::GetUser() const
 	return this->m_user;
 }
 
-void Like::SetID(const int& ID)
+void Like::SetID( int ID)
 {
 	this->m_ID=ID;
 }

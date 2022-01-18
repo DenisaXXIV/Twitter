@@ -1,6 +1,6 @@
 #include "CommentService.h"
 
-void CommentService::AddComment(std::string text, std::string date, std::string time, std::string id_user, int id_tweet)
+void CommentService::AddComment(const std::string& text, const std::string& date, const std::string& time, const std::string& id_user, int id_tweet)
 {
     DatabaseConnection db;
 
@@ -58,7 +58,7 @@ void CommentService::DeleteComment(int id_comment)
     PQclear(res);
 }
 
-void CommentService::EditComment(int id_comment, std::string newText)
+void CommentService::EditComment(int id_comment, const std::string& newText)
 {
     DatabaseConnection db;
 
@@ -85,7 +85,7 @@ void CommentService::EditComment(int id_comment, std::string newText)
     PQclear(res);
 }
 
-int CommentService::GetId(std::string text, std::string date, std::string time, std::string id_user, int id_tweet)
+int CommentService::GetId(const std::string& text, const std::string& date, const std::string& time, const std::string& id_user, int id_tweet)
 {
     DatabaseConnection db;
     int id = -1;
@@ -452,7 +452,7 @@ int CommentService::GetTweet(int id_comment)const
     return id_tweet;
 }
 
-void CommentService::SetText(const int& id_comment, const std::string& newText)
+void CommentService::SetText( int id_comment, const std::string& newText)
 {
     DatabaseConnection db;
     std::string id_commentS = std::to_string(id_comment);
@@ -478,7 +478,7 @@ void CommentService::SetText(const int& id_comment, const std::string& newText)
     PQclear(res);
 }
 
-void CommentService::SetDate(const int& id_comment, const std::string& newDate)
+void CommentService::SetDate(int id_comment, const std::string& newDate)
 {
     DatabaseConnection db;
     std::string id_commentS = std::to_string(id_comment);
@@ -504,7 +504,7 @@ void CommentService::SetDate(const int& id_comment, const std::string& newDate)
     PQclear(res);
 }
 
-void CommentService::SetTime(const int& id_comment, const std::string& newTime)
+void CommentService::SetTime(int id_comment, const std::string& newTime)
 {
     DatabaseConnection db;
     std::string id_commentS = std::to_string(id_comment);
@@ -530,7 +530,7 @@ void CommentService::SetTime(const int& id_comment, const std::string& newTime)
     PQclear(res);
 }
 
-void CommentService::SetUser(const int& id_comment, const std::string& newUser)
+void CommentService::SetUser( int id_comment, const std::string& newUser)
 {
     DatabaseConnection db;
     std::string id_commentS = std::to_string(id_comment);
@@ -556,7 +556,7 @@ void CommentService::SetUser(const int& id_comment, const std::string& newUser)
     PQclear(res);
 }
 
-void CommentService::SetTweet(const int& id_comment, const int newTweet)
+void CommentService::SetTweet( int id_comment, int newTweet)
 {
     DatabaseConnection db;
     std::string id_commentS = std::to_string(id_comment);

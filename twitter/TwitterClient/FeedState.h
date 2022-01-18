@@ -21,6 +21,11 @@ private:
 	};
 	TwitterHomeButton m_button;
 
+
+		sf::Texture TwitterLogo;
+		sf::Sprite TwitterLogoSprite;
+
+
 	Textbox* AddFriendTextBox;
 
 	Tweetbox* m_tweet;
@@ -51,6 +56,7 @@ public:
 	void initLines(sf::RenderTarget* target);
 	void initButtons(sf::RenderTarget* target);
 	void initTweetbox(sf::RenderTarget* target);
+	void initSpritesTextures(sf::RenderTarget* target);
 	
 
 	void SetText(const sf::Event& input);

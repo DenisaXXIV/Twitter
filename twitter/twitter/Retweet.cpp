@@ -1,6 +1,6 @@
 #include "Retweet.h"
 
-Retweet::Retweet(Tweet* referenceTweet, std::string text, time_t time):
+Retweet::Retweet(Tweet* referenceTweet, const std::string& text, const time_t& time):
 	Tweet(text,time),
 	m_referenceTweet(referenceTweet)
 {

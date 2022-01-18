@@ -169,12 +169,9 @@
     <ClCompile Include="DatabaseConnection.cpp" />
     <ClCompile Include="FriendsService.cpp" />
     <ClCompile Include="Like.cpp" />
-    <ClCompile Include="Lists.cpp" />
-    <ClCompile Include="LocationService.cpp" />
     <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="RetweetService.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Notifications.cpp" />
     <ClCompile Include="Retweet.cpp" />
     <ClCompile Include="Tweet.cpp" />
     <ClCompile Include="TweetService.cpp" />
@@ -189,9 +186,6 @@
     <ClInclude Include="Features.h" />
     <ClInclude Include="FriendsService.h" />
     <ClInclude Include="Like.h" />
-    <ClInclude Include="Lists.h" />
-    <ClInclude Include="LocationService.h" />
-    <ClInclude Include="Notifications.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Retweet.h" />
     <ClInclude Include="RetweetService.h" />

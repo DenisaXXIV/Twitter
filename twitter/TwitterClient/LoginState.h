@@ -18,6 +18,10 @@ private:
 	Textbox* m_textbox;
 	sf::RectangleShape m_enterBox;
 	sf::Event m_sfEvent;
+
+	sf::Sprite m_twitterLogo;
+	sf::Texture m_twitterImg;
+
 	
 	int m_count;
 

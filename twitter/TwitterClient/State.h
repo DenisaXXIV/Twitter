@@ -9,7 +9,6 @@
 #include <array>
 #include "../Network/TcpSocket.h"
 
-
 #include<SFML\Graphics.hpp>
 #include<SFML\Window.hpp>
 #include<SFML\System.hpp>
@@ -57,6 +56,24 @@ public:
 		eFeedState,
 		eTweetState,
 		eProfileState
+	};
+
+	enum UserImg : uint8_t
+	{
+		eAnon1,
+		eAnon2,
+		eFem1,
+		eFem2,
+		eFem3,
+		eMale1,
+		eMale2
+	};
+	enum IconImg : uint8_t
+	{
+		eTwitter,
+		eLike,
+		eRetweet,
+		eComment
 	};
 
 	States getCurrentState()const;

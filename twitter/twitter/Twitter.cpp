@@ -135,6 +135,7 @@ void Twitter::LoginMethod()
 		}
 		else
 		{
+			this->log->LocI(Logger::Level::ERROR, "Login Failed");
 			message = "Login Failed";
 			m_client->Send(message.c_str(), message.size());
 		}
@@ -143,14 +144,19 @@ void Twitter::RegisterMethod()
 {
 	User newUser;
 	bool isTaken = false;
-	for (int i = 0; i < 6;)
+	int i = 0;
+	std::string sendMessage;
+	while(true)
 	{
 		if (isTaken == true)
 			break;
 		std::string message;
-		
+		if (i == 6)
+			break;
 		try {
 			message = this->RecieveString();
+			if (message.size() != 0)
+				i++;
 		}
 		catch (std::exception e)
 		{
@@ -161,49 +167,52 @@ void Twitter::RegisterMethod()
 		std::cout << message << '\n';
 		switch (i)
 		{
-		case 0:
+		case 1:
 			UserService checkUser;
 			if (checkUser.CheckUser(message)) //if it already exists
 			{
 				isTaken = true;
-				message = "This username is already taken";
+				sendMessage = "This username is already taken";
 				m_client->Send(message.c_str(), message.size());
-				i++;
 			}
 			else
 			{
 				newUser.SetUsername(message);
-				message = "Continue";
+				sendMessage = "Continue";
 				m_client->Send(message.c_str(), message.size());
-				i++;
 			}
 			break;
-		case 1:
-			newUser.SetName(message);
-			i++;
-			break;
 		case 2:
-			newUser.SetBio(message);
-			i++;
+			newUser.SetName(message);
+			sendMessage = "ok";
+			m_client->Send(sendMessage.c_str(), sendMessage.size());
 			break;
 		case 3:
-			newUser.SetBirthday(message);
-			i++;
+			newUser.SetBio(message);
+			sendMessage = "ok";
+			m_client->Send(sendMessage.c_str(), sendMessage.size());
 			break;
 		case 4:
-			newUser.SetWebsite(message);
-			i++;
+			newUser.SetBirthday(message);
+			sendMessage = "ok";
+			m_client->Send(sendMessage.c_str(), sendMessage.size());
 			break;
 		case 5:
+			newUser.SetWebsite(message);
+			sendMessage = "ok";
+			m_client->Send(sendMessage.c_str(), sendMessage.size());
+			break;
+		case 6:
 			newUser.SetLocation(message);
-			i++;
+			sendMessage = "ok";
+			m_client->Send(sendMessage.c_str(), sendMessage.size());
 			break;
 		}
 	}
 	if (isTaken == false)
 	{
 		UserService userService;
-		userService.AddUser(newUser.GetUsername(), newUser.GetBirthday(), newUser.GetName(), newUser.GetBio(), newUser.GetWebsite(), newUser.GetLocation());
+		userService.AddUser(newUser.GetUsername(), newUser.GetBio(), newUser.GetWebsite(), newUser.GetBirthday(), newUser.GetName(), newUser.GetLocation());
 	}
 }
 
@@ -298,8 +307,10 @@ void Twitter::operator()(TcpSocket& client, Logger& log)
 void Twitter::MakePriorityQueue()
 {
 	TweetService tweets;
-	while (this->m_priorityQueue.Size() > 0)
-		this->m_priorityQueue.ExtractMax();
+	while (this->m_profilePriorityQueue.Size() > 0)
+		this->m_profilePriorityQueue.ExtractMax();
+	while (!this->m_profileOldPosts.empty())
+		this->m_profileOldPosts.pop();
 	std::string postari;
 	std::vector<std::string> date = tweets.GetDate(m_currentUser);
 	std::vector<std::string> time = tweets.GetTime(m_currentUser);
@@ -313,30 +324,19 @@ void Twitter::MakePriorityQueue()
 		if(time.size() > 0)
 			for (int i = 0; i < time.size(); i++)
 			{
+				postari = "";
 				postari += date[i];
 				postari += time[i];
 				m_profilePriorityQueue.Insert(postari);
 			}
-		else
-		{
-			std::string message = "You have no posts";
-			this->m_client->Send(message.c_str(), message.size());
-			return;
-		}
 		std::string firstPost = m_profilePriorityQueue.GetMaxElement();
 		std::string time2 = "";
 		for (int i = 8; i < firstPost.size(); i++)
 			time2 += firstPost[i];
 
 		std::string post = tweets.GetTweet(time2);
-		try
-		{
-			this->m_client->Send(post.c_str(), post.size());
-		}
-		catch(std::exception e)
-		{
-			std::cout << "error" << e.what();
-		}
+		bool result = this->m_client->Send(post.c_str(), post.size());
+
 	}
 }
 
@@ -346,6 +346,8 @@ void Twitter::MakeFeedPriorityQueue()
 	FriendsService friendsService;
 	while (this->m_priorityQueue.Size() > 0)
 		this->m_priorityQueue.ExtractMax();
+	while (!this->m_oldPosts.empty())
+		m_oldPosts.pop();
 	std::vector<std::string> friendList = friendsService.GetFriendsList(m_currentUser);
 
 	if (friendList.size() == 0)
@@ -355,12 +357,14 @@ void Twitter::MakeFeedPriorityQueue()
 	}
 	else
 	{
+		int exista = 0;
 		for (auto x : friendList)
 		{
 			std::string postari = "";
 			std::vector<std::string> date = tweet.GetDate(x);
 			std::vector<std::string> time = tweet.GetTime(x);
-			if(time.size() > 0)
+			if (time.size() > 0)
+			{
 				for (int i = 0; i < time.size(); i++)
 				{
 					postari = "";
@@ -368,11 +372,16 @@ void Twitter::MakeFeedPriorityQueue()
 					postari += time[i];
 					m_priorityQueue.Insert(postari);
 				}
+				exista = 1;
+			}
 			else
 			{
-				std::string message = "Your friends have no posts";
-				this->m_client->Send(message.c_str(), message.size());
-				return;
+				if (exista == 0)
+				{
+					std::string message = "Your friends have no posts";
+					bool result = this->m_client->Send(message.c_str(), message.size());
+					return;
+				}
 			}
 		}
 		std::string firstPost = m_priorityQueue.GetMaxElement();
@@ -381,7 +390,14 @@ void Twitter::MakeFeedPriorityQueue()
 			time += firstPost[i];
 
 		std::string post = tweet.GetTweet(time);
-		this->m_client->Send(post.c_str(), post.size());
+		bool result = this->m_client->Send(post.c_str(), post.size());
+
+		if (result)
+		{
+			std::string user = tweet.GetUserByTime(time);
+			this->m_client->Send(user.c_str(), user.size());
+			std::cout << tweet.GetUserByTime(time) << '\n';
+		}
 	}
 }
 
@@ -408,7 +424,13 @@ void Twitter::ShowNextPost()
 
 		std::string post = tweet.GetTweet(time);
 
-		this->m_client->Send(post.c_str(), post.size());
+		bool result = this->m_client->Send(post.c_str(), post.size());
+		if (result)
+		{
+			std::string user = tweet.GetUserByTime(time);
+			this->m_client->Send(user.c_str(), user.size());
+		}
+		
 	}
 }
 
@@ -434,8 +456,13 @@ void Twitter::ShowPreviousPost()
 
 		std::string post = tweet.GetTweet(time);
 
-		this->m_client->Send(post.c_str(), post.size());
+		bool result = this->m_client->Send(post.c_str(), post.size());
 
+		if (result)
+		{
+			std::string user = tweet.GetUserByTime(time);
+			this->m_client->Send(user.c_str(), user.size());
+		}
 	}
 }
 
